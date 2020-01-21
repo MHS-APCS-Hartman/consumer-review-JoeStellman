@@ -239,4 +239,35 @@ public class Review {
       }
       return text;
    }
+  
+  public static String fakeReviewStronger(String fileName)
+  {
+      String text = textToString(fileName);
+      
+      for(int i = 0; i < text.length(); i++)
+      {
+         if(text.charAt(i) == '*')
+         {
+            int j = i;
+            while(true)
+            {
+               i++;
+               if(text.charAt(i) == ' ')
+               {
+                  break;
+               }
+            }
+            int k = i;
+            if(starRating(fileName) <= 2) //Negative review
+            {
+               text = text.substring(0, j) + randomNegativeAdj() + text.substring(k);
+            }
+            else //Positive review
+            {
+               text = text.substring(0, j) + randomNegativeAdj() + text.substring(k);
+            }
+         }
+      }
+      return text;
+   }
 }
