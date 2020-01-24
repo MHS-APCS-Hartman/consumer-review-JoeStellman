@@ -215,4 +215,85 @@ public class Review {
          return 0;
       }
    }
+
+  public static String fakeReview(String fileName)
+  {
+      String text = textToString(fileName);
+      int j;
+      int k;
+      
+      for(int i = 0; i < text.length(); i++)
+      {
+         if(text.charAt(i) == '*')
+         {
+            j = i;
+            while(true)
+            {
+               i++;
+               if(text.charAt(i) == ' ')
+               {
+                  break;
+               }
+            }
+            k = i;
+            
+            text = text.substring(0, j) + randomAdjective() + getPunctuation(text.substring(j + 1, k)) + text.substring(k);
+         }
+      }
+      return text;
+   }
+   
+   public static String fakeReviewStronger(String fileName)
+   {
+      String text = textToString(fileName);
+      String adj;
+      int j;
+      int k;
+      double adjSV;
+      
+      for(int i = 0; i < text.length(); i++)
+      {
+         if(text.charAt(i) == '*')
+         {
+            j = i;
+            while(true)
+            {
+               i++;
+               if(text.charAt(i) == ' ')
+               {
+                  break;
+               }
+            }
+            k = i;
+            
+            adjSV = sentimentVal(text.substring(j + 1 , k));
+            
+            if(adjSV > 0)
+            {
+               while(true)
+               {
+                  adj = randomPositiveAdj();
+                  if(sentimentVal(adj) > adjSV)
+                  {
+                     text = text.substring(0, j) + adj + getPunctuation(text.substring(j + 1, k)) + text.substring(k);
+                     break; 
+                  }
+               }
+            }
+            else
+            {
+               while(true)
+               {
+                  adj = randomNegativeAdj();
+                  if(sentimentVal(adj) < adjSV)
+                  {
+                     text = text.substring(0, j) + adj + getPunctuation(text.substring(j + 1, k)) + text.substring(k);
+                     break;
+                  }
+               }
+            }
+         }
+      }
+      return text;
+   }
 }
