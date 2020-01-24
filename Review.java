@@ -166,6 +166,9 @@ public class Review {
     }
   }
   
+  /*
+    Returns the sentiment value of review given the file name.
+  */
   public static double totalSentiment(String fileName)
   {
       double total = 0;
@@ -174,20 +177,23 @@ public class Review {
       
       for(int i = 0; i < reviewText.length();i++)
       {
-         if(reviewText.substring(i, i + 1).equals(" ") || i + 1 == reviewText.length())
+         if(reviewText.substring(i, i + 1).equals(" ") || i + 1 == reviewText.length()) //When at end of string or space, remove punct and get the sentiment value.
          {
-            total += sentimentVal(removePunctuation(word));
-            word = "";
+            total += sentimentVal(removePunctuation(word)); //add it to total
+            word = "";  //reset word
          }
          else
          {
-            word += reviewText.substring(i, i + 1);
+            word += reviewText.substring(i, i + 1); // Keep going till word is complete.
          }
            
       }
       return total;
    }
   
+  /*
+    Returns the star rating of a review given the file name.
+  */
   public static int starRating(String fileName)
   {
       if(totalSentiment(fileName) < 0)
@@ -215,34 +221,40 @@ public class Review {
          return 0;
       }
    }
-
+  
+  /*
+    Replaces all adjectives in an annotated review and reutrns the new review.
+  */
   public static String fakeReview(String fileName)
   {
       String text = textToString(fileName);
       int j;
       int k;
       
-      for(int i = 0; i < text.length(); i++)
+      for(int i = 0; i < text.length(); i++)  //Two "index" variables that update at the finding of an *adjective
       {
          if(text.charAt(i) == '*')
          {
-            j = i;
+            j = i;  //Taking everything before the adjective.
             while(true)
             {
                i++;
-               if(text.charAt(i) == ' ')
+               if(text.charAt(i) == ' ') //Finding the space after the adjective.
                {
                   break;
                }
             }
-            k = i;
+            k = i;  //Taking everything after the adjective.
             
-            text = text.substring(0, j) + randomAdjective() + getPunctuation(text.substring(j + 1, k)) + text.substring(k);
+            text = text.substring(0, j) + randomAdjective() + getPunctuation(text.substring(j + 1, k)) + text.substring(k); //Assembling the new review.
          }
       }
       return text;
    }
    
+  /*
+    Replaces the ajdectives in an annotated review with stronger adjectives, then returns the new review.
+  */
    public static String fakeReviewStronger(String fileName)
    {
       String text = textToString(fileName);
@@ -251,11 +263,11 @@ public class Review {
       int k;
       double adjSV;
       
-      for(int i = 0; i < text.length(); i++)
+      for(int i = 0; i < text.length(); i++)  //Two "index" variables that are updated at the finding of another *adjective.
       {
          if(text.charAt(i) == '*')
          {
-            j = i;
+            j = i;  //Taking everything before the adjective.
             while(true)
             {
                i++;
@@ -264,13 +276,13 @@ public class Review {
                   break;
                }
             }
-            k = i;
+            k = i;  //Taking everything after the adjective.
             
             adjSV = sentimentVal(text.substring(j + 1 , k));
             
             if(adjSV > 0)
             {
-               while(true)
+               while(true) //Replacing the found adjective with a stronger adjective.
                {
                   adj = randomPositiveAdj();
                   if(sentimentVal(adj) > adjSV)
@@ -282,7 +294,7 @@ public class Review {
             }
             else
             {
-               while(true)
+               while(true)  //Replacing the found adjective with a stronger adjective.
                {
                   adj = randomNegativeAdj();
                   if(sentimentVal(adj) < adjSV)
