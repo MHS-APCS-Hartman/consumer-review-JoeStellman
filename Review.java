@@ -215,7 +215,7 @@ public class Review {
          return 0;
       }
    }
-  
+
   public static String fakeReview(String fileName)
   {
       String text = textToString(fileName);
