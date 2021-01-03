@@ -223,7 +223,7 @@ public class Review {
    }
   
   /*
-    Replaces all adjectives in an annotated review and reutrns the new review.
+    Replaces all adjectives in an annotated review and returns the new review.
   */
   public static String fakeReview(String fileName)
   {
